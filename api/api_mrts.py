@@ -11,7 +11,8 @@ def get_db_connection():
         host='localhost',
         user='root',
         password='mysqlpw',
-        database='taipei_day_trip'
+        database='taipei_day_trip',
+        charset='utf8mb4'
     )
 
 @router.get("/api/mrts", response_model=MRTListResponseModel)

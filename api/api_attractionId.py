@@ -13,7 +13,8 @@ def get_db_connection():
             host='localhost',
             user='root',
             password='mysqlpw',
-            database='taipei_day_trip'
+            database='taipei_day_trip',
+            charset='utf8mb4'
         )
         return conn
     except Error as e:
