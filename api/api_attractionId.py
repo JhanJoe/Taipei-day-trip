@@ -4,7 +4,6 @@ from typing import List, Optional
 import mysql.connector
 from mysql.connector import Error
 
-# 改用 router 執行
 router = APIRouter()
 
 def get_db_connection():
@@ -37,7 +36,6 @@ class Attraction(BaseModel):
 class AttractionResponse(BaseModel):
     data: Attraction
 
-# 改用 routuer 執行
 @router.get("/api/attraction/{attractionId}", response_model=AttractionResponse)
 async def get_attraction(attractionId: int):
     try:

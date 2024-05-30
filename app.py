@@ -47,7 +47,7 @@ async def custom_validation_exception_handler(request: Request, exc: RequestVali
         status_code=422,
         content={
             "error": True,
-            "message": "您的查詢方式不符合標準 (error: 422)"
+            "message": "您的查詢方式不符合標準 (ERROR: 422)"
         }
     )
 
@@ -59,7 +59,7 @@ async def custom_404_handler(request: Request, exc: StarletteHTTPException):
             status_code=404,
             content={
                 "error": True,
-                "message": "您的查詢方式不符合標準 (error: 404)"
+                "message": "您的查詢方式不符合標準 (ERROR: 404)"
             }
         )
     return await custom_http_exception_handler(request, exc)
@@ -71,7 +71,7 @@ async def custom_generic_exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={
             "error": True,
-            "message": "內部伺服器錯誤 (error: 500)"
+            "message": "內部伺服器錯誤 (ERROR: 500)"
         }
     )
 

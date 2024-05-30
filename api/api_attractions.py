@@ -1,8 +1,7 @@
-from fastapi import APIRouter, FastAPI, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 import mysql.connector
-import uvicorn
 
 router = APIRouter()
 
