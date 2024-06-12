@@ -1,5 +1,6 @@
 # new
 _private/
+script/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
