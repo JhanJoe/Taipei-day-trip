@@ -4,8 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Index</title>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+  <script src="/static/script.js" defer></script>
 </head>
 <body>
-  
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar_title">台北一日遊</div>
+      <div class="navbar_menu">
+        <button class="navbar_menu_button" id="navbar_menu_reservation">預定行程</button>
+        <button class="navbar_menu_button" id="navbar_menu_login">登入/註冊</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="banner">
+      <div class="container">
+        <div class="banner_title">輕鬆享受台北一日悠閒</div>
+        <div class="banner_description">探索每個角落，體驗城市的深度旅遊行程</div>
+        <div class="banner_search">
+          <input type="text" id="search" placeholder="輸入景點名稱查詢">
+          <button id="search_button"><img src="/static/img/icon/search.png" alt="Search"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="mrt_list" class="mrt_list">
+        <button id="mrt_list_left" class="mrt_button_left">
+        </button>
+        <div id="mrt_list_stations" class="mrt_stations"></div>
+        <button id="mrt_list_right" class="mrt_button_right">
+        </button>
+      </div>
+
+      <div id="attractions" class="attractions_container"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer">COPYRIGHT © 2021 台北一日遊</div>
+  </footer>
+
 </body>
 </html>
