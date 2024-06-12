@@ -1,10 +1,10 @@
 body,html{
+    width:100%;
     margin:0;
     padding: 0;
     box-sizing: border-box; 
     font-family: "noto sans TC", sans-serif;
     overflow-x: hidden; 
-    width:100%;
 }
 
 body::-webkit-scrollbar:horizontal {
@@ -27,22 +27,22 @@ body::-webkit-scrollbar:horizontal {
 .navbar {
     position: fixed;
     top: 0;
+    z-index: 1000;
+    display: flex;
     width: 100%; 
     height: 54px;
-    display: flex;
-    justify-content: center; 
-    z-index: 1000;
     box-sizing: border-box;
+    justify-content: center;   
     background-color: #ffffff;
 }
 
 .navbar .container {
     display: flex;
-    justify-content: space-between; 
-    align-items: center;
     max-width: 1200px;
     width: 100%;
     padding: 0 10px;
+    justify-content: space-between; 
+    align-items: center;    
 }
 
 .navbar_title {
@@ -58,10 +58,10 @@ body::-webkit-scrollbar:horizontal {
 
 .navbar_menu_button {
     padding: 10px;
+    border: 1px #ccc;
     background-color: white;
     font-size: 16px;
-    font-weight: medium;
-    border: 1px #ccc;
+    font-weight: medium;    
     color: #666666;
 }
 
@@ -70,13 +70,11 @@ main {
 }
 
 .banner {
+    position: relative;
+    display: flex;
     width: 100%;
     height: 320px;
-    display: flex;
     align-items: center; 
-    background: url('img/welcome.png') no-repeat center top;
-    background-size: cover; 
-    position: relative; 
     padding: 20px 0;
     border: 0px solid transparent; 
     border-image-slice: 1; 
@@ -86,6 +84,8 @@ main {
       rgba(102, 170, 187, 1) 
     );
     box-sizing: border-box;
+    background: url('img/welcome.png') no-repeat center top;
+    background-size: cover; 
     overflow: hidden; 
 }
 
@@ -119,23 +119,24 @@ main {
 }
 
 #search {
+    width: 460px;
     padding: 10px;
+    border:none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px rgba(170, 187, 204, 1);
     font-size: 16px;
     font-weight: bold;
     color: #757575;
-    width: 460px;
-    border:none;
-    border-radius: 5px;
-    box-shadow: 0px 0px 20px 0px rgba(170, 187, 204, 1);}
+}
 
 #search_button {
     width: 60px;
     padding: 10px;
+    border: none;
+    border-radius: 5px;    
     font-size: 16px;
     background-color: #448899;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    color: white;    
     cursor: pointer;
 }
 
@@ -144,14 +145,14 @@ main {
 }
 
 .footer {
-    background-color: #757575;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
     align-items: center;
     text-align: center;
     padding: 40px;
     margin-top: 60px;
+    background-color: #757575;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;    
 }
 
 
@@ -169,13 +170,13 @@ main {
     width: 47px;
     height: 50px;
     padding: 9px 0 9px 15px;
-    background: none;
     border: none;
-    cursor: pointer;
+    background: none;
     background-image: url('/static/img/button/States=Default_left.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain; 
+    cursor: pointer;
 }
 
 .mrt_button_left:hover {
@@ -186,13 +187,13 @@ main {
     width: 47px;
     height: 50px;
     padding: 9px 15px 9px 0;
-    background: none;
     border: none;
-    cursor: pointer;
+    background: none;
     background-image: url('/static/img/button/States=Default_right.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain; 
+    cursor: pointer;
 }
 
 .mrt_button_right:hover {
@@ -201,11 +202,11 @@ main {
 
 .mrt_stations {
     display: flex;
-    overflow-x: auto;
     max-width: 1106px;
     gap: 4px;
     padding: 13px 10px;
     white-space: nowrap;  
+    overflow-x: auto;
     -ms-overflow-style: none;  /*移除IE和Edge的滾動條 */
     scrollbar-width: none;  /*移除Firefox的滾動條 */
 }
@@ -225,10 +226,10 @@ main {
 }
 
 .mrt_station:hover {
-    color: #000000; 
+    border-radius: 5px; 
+    color: #000000;     
     text-decoration: underline;
     background-color: #9accd8;
-    border-radius: 5px; 
 }
 
 
