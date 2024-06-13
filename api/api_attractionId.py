@@ -15,6 +15,8 @@ def get_db_connection():
             database='taipei_day_trip',
             charset='utf8mb4'
         )
+        cursor = conn.cursor()
+        cursor.execute("SET SESSION group_concat_max_len = 100000")
         return conn
     except Error as e:
         print(f"連接 MySQL 錯誤: {e}")

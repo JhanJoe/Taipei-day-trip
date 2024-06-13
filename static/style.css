@@ -1,0 +1,337 @@
+body,html{
+    width:100%;
+    margin:0;
+    padding: 0;
+    box-sizing: border-box; 
+    font-family: "noto sans TC", sans-serif;
+    overflow-x: hidden; 
+}
+
+body::-webkit-scrollbar:horizontal {
+    display: none;
+}
+
+* {
+    max-width: 100vw; 
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 10px; 
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    width: 100%; 
+    height: 54px;
+    box-sizing: border-box;
+    justify-content: center;   
+    background-color: #ffffff;
+}
+
+.navbar .container {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 10px;
+    justify-content: space-between; 
+    align-items: center;    
+}
+
+.navbar_title {
+    font-size: 30px;
+    font-weight: bold;
+    color: #448899;
+}
+
+.navbar_menu {
+    display: flex;
+    box-sizing: border-box;
+}
+
+.navbar_menu_button {
+    padding: 10px;
+    border: 1px #ccc;
+    background-color: white;
+    font-size: 16px;
+    font-weight: medium;    
+    color: #666666;
+}
+
+main {
+    padding-top: 54px; /* 預留固定的 navbar 高度 */
+}
+
+.banner {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 320px;
+    align-items: center; 
+    padding: 20px 0;
+    border: 0px solid transparent; 
+    border-image-slice: 1; 
+    border-image-source: linear-gradient( 
+      to right, 
+      rgba(170, 221, 238, 1), 
+      rgba(102, 170, 187, 1) 
+    );
+    box-sizing: border-box;
+    background: url('img/welcome.png') no-repeat center top;
+    background-size: cover; 
+    overflow: hidden; 
+}
+
+.banner .container{
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.banner_title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #F8F8F8;
+    text-shadow: 0 0 30px rgba(170, 187, 204, 1);
+}
+
+.banner_description {
+    font-size: 16px;
+    font-weight: bold;
+    color: #F8F8F8;
+    margin-top: 15px;
+}
+
+.banner_search {
+    display: flex;
+    margin-top: 31px;
+    box-sizing: border-box;
+    height: 46px;
+}
+
+#search {
+    width: 460px;
+    padding: 10px;
+    border:none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px 0px rgba(170, 187, 204, 1);
+    font-size: 16px;
+    font-weight: bold;
+    color: #757575;
+}
+
+#search_button {
+    width: 60px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;    
+    font-size: 16px;
+    background-color: #448899;
+    color: white;    
+    cursor: pointer;
+}
+
+#search_button:hover {
+    background-color: #336677;
+}
+
+.footer {
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    margin-top: 60px;
+    background-color: #757575;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;    
+}
+
+
+
+/* MRT 列表 */
+.mrt_list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 10px;
+    overflow: hidden;
+}
+
+.mrt_button_left {
+    width: 47px;
+    height: 50px;
+    padding: 9px 0 9px 15px;
+    border: none;
+    background: none;
+    background-image: url('/static/img/button/States=Default_left.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain; 
+    cursor: pointer;
+}
+
+.mrt_button_left:hover {
+    background-image: url('/static/img/button/States=Hovered_left.png');
+}
+
+.mrt_button_right {
+    width: 47px;
+    height: 50px;
+    padding: 9px 15px 9px 0;
+    border: none;
+    background: none;
+    background-image: url('/static/img/button/States=Default_right.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain; 
+    cursor: pointer;
+}
+
+.mrt_button_right:hover {
+    background-image: url('/static/img/button/States=Hovered_right.png');
+}
+
+.mrt_stations {
+    display: flex;
+    max-width: 1106px;
+    gap: 4px;
+    padding: 13px 10px;
+    white-space: nowrap;  
+    overflow-x: auto;
+    -ms-overflow-style: none;  /*移除IE和Edge的滾動條 */
+    scrollbar-width: none;  /*移除Firefox的滾動條 */
+}
+
+.mrt_stations::-webkit-scrollbar {
+    display: none; /* 移除Chrome, Safari 和 Opera 的滾動條 */
+}
+
+.mrt_station {
+    display: inline-block; 
+    padding: 5px 15px;
+    font-size: 16px;
+    color: #666666;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.mrt_station:hover {
+    border-radius: 5px; 
+    color: #000000;     
+    text-decoration: underline;
+    background-color: #9accd8;
+}
+
+
+
+
+.attractions_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); 
+    gap: 30px;
+    justify-content: center;
+    max-width: 1200px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.attraction {
+    height: 242px;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.attraction_image {
+    width: 100%;
+    height: 197px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.attraction_name_overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.attraction_name_overlay_text {
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    color: white; 
+    font-size: 16px;
+    font-weight: bold;
+    width: 95%; 
+}
+
+.attraction_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 45px;
+    background-color: #fff;
+    padding: 0 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.attraction_mrt {
+    font-size: 16px;
+    color: #757575;
+}
+
+.attraction_category {
+    font-size: 16px;
+    color: #757575;
+}
+
+@media (max-width: 600px) and (min-width: 360px) {
+    .attraction {
+        width: 70%;
+        min-width: 322px; 
+        height: 280px;
+        margin: 0 auto; 
+    }
+
+    .attraction_image {
+        height: 235px;
+    }
+
+    .banner .container{
+        padding: 20px;
+    }
+
+    .banner_search {
+        flex-direction: row;
+        width: 90%;
+    }
+    #search {
+        width: calc(100% - 60px); 
+    }
+    #search_button {
+        width: 60px;
+    }
+}
