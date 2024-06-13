@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         attractions.forEach(attraction => {
             const attractionDiv = document.createElement('div');
             attractionDiv.className = 'attraction'; 
+            attractionDiv.setAttribute('data-id', attraction.id);
 
             const imageUrl = attraction.images.length > 0 ? attraction.images[0] : '';
             console.log('Image URL:', imageUrl); 
@@ -96,6 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             attractionDiv.innerHTML = attractionHTML;
             container.appendChild(attractionDiv);
+            
+            attractionDiv.addEventListener('click', () => {
+                const attractionId = attractionDiv.getAttribute('data-id');
+                window.location.href = `/attraction/${attractionId}`;
+            });
         });
     }
 
