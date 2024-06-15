@@ -53,6 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (i === currentImageIndex) { 
                 dot.classList.add('active'); 
             }
+            dot.addEventListener('click', () => {
+                currentImageIndex = i;
+                document.getElementById('image_container').innerHTML = `<img src="${images[currentImageIndex]}" alt="Image">`;
+                updateDots();
+            });
+            
             dotsContainer.appendChild(dot); 
         }
     }
@@ -67,23 +73,30 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('left_button').addEventListener('click', () => {
         if (currentImageIndex > 0) { 
             currentImageIndex--; 
+        } else {
+            currentImageIndex = images.length - 1; 
+        }
             document.getElementById('image_container').innerHTML = `<img src="${images[currentImageIndex]}" alt="Image">`; // 更新圖片容器，顯示前一張圖片
             updateDots(); 
-        }
     });
 
     document.getElementById('right_button').addEventListener('click', () => {
         if (currentImageIndex < images.length - 1) {  
             currentImageIndex++;
+        } else {
+            currentImageIndex = 0 
+        }
             document.getElementById('image_container').innerHTML = `<img src="${images[currentImageIndex]}" alt="Image">`;
             updateDots(); 
-        }
+    });
+
+    document.querySelector('.calendar_icon').addEventListener('click', function() {
+        document.getElementById('date').focus(); 
     });
 
     const costContainer = document.getElementById('cost');
     costContainer.textContent = '新台幣 2000 元';
 
-    // 時間單選選單
     document.querySelectorAll('input[name="day_time"]').forEach(radio => {
         radio.addEventListener('change', function() {
             const costContainer = document.getElementById('cost');

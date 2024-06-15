@@ -396,6 +396,7 @@ main {
     margin: 0 6px; 
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.75); 
+    cursor:pointer;
 }
 
 .dot.active {
@@ -456,13 +457,40 @@ main {
     margin: 15px 0 15px 0;
 }
 
+.date_container {
+    position: relative;
+    display: inline-block;
+}
+
 input[type="date"] {
+    position:relative;
     width: 193px;
     height: 35px;
     font-size: 16px;
-    align-items: center;
+    font-weight: 500;
+    font-family: Noto Sans TC;
     padding: 10px;
+    padding-right: 40px;
     box-sizing: border-box;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    z-index: 1;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+.calendar_icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background-color: #ffffff;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
 
 .booking_button {
@@ -513,7 +541,12 @@ hr {
     margin: 0;
 }
 
-
+@media (max-width: 800px) and (min-width: 700px) {
+    .dots_container {
+        flex-wrap: wrap;
+        width:85%;
+    }
+}
 
 @media (max-width: 700px) and (min-width: 360px) {
     /*attraction.html*/
@@ -560,6 +593,7 @@ hr {
         margin: 10px;
         min-width: 340px;
     }
+    
 }
 
 @media (max-width: 600px) and (min-width: 360px) {
@@ -587,5 +621,12 @@ hr {
     }
     #search_button {
         width: 60px;
+    }
+}
+
+@media (max-width: 475px) and (min-width: 360px) {
+    .dots_container {
+        flex-wrap: wrap;
+        width:85%;
     }
 }
