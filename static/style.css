@@ -451,7 +451,7 @@ main {
     height: 302px;
     border-radius: 5px;
     background-color: #E8E8E8;
-    padding: 20px;
+    padding: 15px 20px;
     margin-top: 20px;
     box-sizing: border-box;
     font-size: 16px;
@@ -509,7 +509,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .booking_button {
     display: flex;
-    margin-top: 10px;
+    margin-top: 25px;
     width: 154px;
     height: 36px;
     padding: 10px 20px;
@@ -534,6 +534,8 @@ input[type="radio"] + label {
     margin:0 8px 0 5px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 500;
+    color: #666666;
 }
 
 /* 一般單選按鈕的圓框 */
@@ -582,7 +584,7 @@ input[type="radio"]:checked + label::after {
     max-width: 1200px;
     margin: 0 auto;
     margin-top: 40px;
-    padding: 10px;
+    padding: 10px 10px 80px 10px;
     box-sizing: border-box;
     background-color: #fff;
     font-size: 16px;
@@ -607,10 +609,15 @@ input[type="radio"]:checked + label::after {
 
 @media (max-width: 700px) and (min-width: 360px) {
     /*attraction.html*/
+    .navbar_hr {
+        display: none;
+    }
+
     .attraction_intro_container {
         flex-direction: column;
         align-items: center; 
         height: auto;
+        padding: 0 0 10px 0;
     }
 
     .attraction_intro_image {
@@ -618,6 +625,7 @@ input[type="radio"]:checked + label::after {
         margin-left: 0;
         margin-bottom: 20px;
         height: auto; 
+        border-radius: 0;
     }
 
     #image_container {
@@ -633,12 +641,24 @@ input[type="radio"]:checked + label::after {
 
     .attraction_intro_booking_container {
         min-width: 340px;
-        margin: 10px;
+        margin: 0 10px;
     }
 
     .attraction_intro_image {
         margin-bottom: 20px;
         height: 350px;
+    }
+
+    .attraction_intro_bookingbox {
+        height: 300px;
+    }
+
+    .attraction_intro_text {
+        font-weight: 400;
+    }
+
+    .main_spacer {
+        height: 20px;
     }
 
     .main_hr {
@@ -647,7 +667,7 @@ input[type="radio"]:checked + label::after {
     }
 
     .attraction_intro_container2 {
-        margin: 10px;
+        margin: 40px 10px 10px 10px;
         min-width: 340px;
     }
     
