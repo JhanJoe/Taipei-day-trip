@@ -7,6 +7,7 @@ from starlette.status import HTTP_404_NOT_FOUND
 from api.api_attractions import router as attractions_router
 from api.api_attractionId import router as attractionId_router
 from api.api_mrts import router as mrts_router
+from api.api_user import router as user_router
 
 app=FastAPI()
 
@@ -30,6 +31,7 @@ async def thankyou(request: Request):
 app.include_router(attractions_router)
 app.include_router(attractionId_router)
 app.include_router(mrts_router)
+app.include_router(user_router)
 
 # 處理所有的 HTTPException，返回自定義錯誤格式
 @app.exception_handler(HTTPException)
