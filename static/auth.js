@@ -207,22 +207,22 @@ async function updateLoginButton() {
         const userData = await isTokenValid(token);
         if (userData) {
             loginButton.textContent = '登出系統';
-            loginButton.removeEventListener('click', showAuthModal); 
+            loginButton.removeEventListener('click', clearForm); 
             loginButton.addEventListener('click', logout); 
         } else {
             localStorage.removeItem('token'); 
             loginButton.textContent = '登入/註冊';
             loginButton.removeEventListener('click', logout); 
-            loginButton.addEventListener('click', showAuthModal); 
+            loginButton.addEventListener('click', clearForm); 
         }
     } else {
         loginButton.textContent = '登入/註冊';
         loginButton.removeEventListener('click', logout); 
-        loginButton.addEventListener('click', showAuthModal);
+        loginButton.addEventListener('click', clearForm);
     }
 }
 
-function showAuthModal() {
+function clearForm() {
     clearFormInputs('register');
     clearFormMessage('login');
 }
