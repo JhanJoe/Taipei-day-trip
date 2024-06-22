@@ -24,19 +24,22 @@ function clearFormMessage(formType) {
     formErrorDiv.textContent = '';
 }
 
-// 登入/註冊視窗
-document.getElementById('navbar_menu_login').addEventListener('click', function() { 
-    event.preventDefault(); 
-    const modal = document.getElementById('auth_modal'); 
+// 以token有無決定登入div動作
+document.getElementById('navbar_menu_login').addEventListener('click', function(event) { 
+    if (localStorage.getItem('token')) {
+        logout();
+    } else {
+        event.preventDefault(); 
+        const modal = document.getElementById('auth_modal'); 
 
-    document.getElementById('login_form').style.display = 'block'; 
-    document.getElementById('register_form').style.display = 'none'; 
+        document.getElementById('login_form').style.display = 'block'; 
+        document.getElementById('register_form').style.display = 'none'; 
 
-    modal.style.display = 'block'; 
-    setTimeout(() => {
-        modal.classList.add('show');
-    }, 10); 
-    
+        modal.style.display = 'block'; 
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10); 
+    }
 });
 
 document.getElementById('close_modal').addEventListener('click', function() { 
@@ -200,7 +203,6 @@ async function isTokenValid(token) {
 async function updateLoginButton() {
     const token = localStorage.getItem('token');
     const loginButton = document.getElementById('navbar_menu_login');
-    
     if (token) {
         const userData = await isTokenValid(token);
         if (userData) {
