@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver(handleIntersection, {
         root: null, 
         rootMargin: '0px', 
-        threshold: 1.0 
+        threshold: 0.8 
     });
 
     observer.observe(document.querySelector('.footer'));
