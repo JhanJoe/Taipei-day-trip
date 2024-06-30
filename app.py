@@ -8,6 +8,7 @@ from api.api_attractions import router as attractions_router
 from api.api_attractionId import router as attractionId_router
 from api.api_mrts import router as mrts_router
 from api.api_user import router as user_router
+from api.api_booking import router as booking_router
 
 app=FastAPI()
 
@@ -27,11 +28,11 @@ async def booking(request: Request):
 async def thankyou(request: Request):
 	return FileResponse("./static/thankyou.html", media_type="text/html")
 
-# 引入 api
 app.include_router(attractions_router)
 app.include_router(attractionId_router)
 app.include_router(mrts_router)
 app.include_router(user_router)
+app.include_router(booking_router)
 
 # 處理所有的 HTTPException，返回自定義錯誤格式
 @app.exception_handler(HTTPException)

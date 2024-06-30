@@ -4,8 +4,164 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Booking</title>
+  <link rel="stylesheet" type="text/css" href="/static/booking.css">
+  <script src="/static/auth.js" defer></script> 
+  <script src="/static/booking_button.js" defer></script>
+  <script src="/static/booking.js" defer></script>  
 </head>
 <body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar_title" onclick="window.location.href='/'">台北一日遊</div>
+      <div class="navbar_menu">
+        <button class="navbar_menu_button" id="navbar_menu_reservation">預定行程</button>
+        <button class="navbar_menu_button" id="navbar_menu_login">登入/註冊</button>
+      </div>
+    </div>
+    <hr class="navbar_hr">
+  </header>
+
+  <main>
+    <div id="booking_container" class="booking_container">
+      <div id="booking_welcome" class="booking_title1"></div>
+      <div id="booking_none" class="booking_text" style="display: none">目前沒有任何待預訂的行程</div>
+      <div class="booking_yes" style="display: none;">
+        <div class="booking_info_container">
+          <div id="booking_info" class="booking_info">
+            <div id="booking_image" class="booking_image"></div>
+            <div id="booking_details" class="booking_details">
+
+              <div class="flex-row1">
+                <div class="booking_title_green">台北一日遊：</div>
+                <div id="booking_name" class="booking_title_green"></div>
+              </div>
+
+              <div class="flex-row1">
+                <div class="booking_title2">日期：</div>
+                <div id="booking_date" class="booking_text2"></div>
+              </div>
+
+              <div class="flex-row1">
+                <div class="booking_title2">時間：</div>
+                <div id="booking_time" class="booking_text2"></div>
+              </div>
+
+              <div class="flex-row1">
+                <div class="booking_title2">費用：</div>
+                <div id="booking_cost" class="booking_text2"></div>
+              </div>
+
+              <div class="flex-row1">
+                <div class="booking_title2">地點：</div>
+                <div id="booking_address" class="booking_text2"></div>
+              </div>
+            
+              <div id="delete_buttdon_container" class="delete_button_container">
+                <img src="/static/img/icon/delete.png" alt="delete" class="delete_button" id="delete_button">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="hr hr1">
+
+        <div class="connection_container">
+          <div class="booking_title1">您的聯絡資訊</div>
+          <div class="connection_details">
+
+            <div class="flex-row2">
+              <div class="booking_text3">聯絡姓名：</div>
+              <input type="text" id="connection_name" placeholder="請輸入姓名" ></input>
+            </div>
+
+            <div class="flex-row2">
+              <div class="booking_text3">聯絡信箱：</div>
+              <input type="text" id="connection_email" placeholder="請輸入email" ></input> 
+            </div>
+
+            <div class="flex-row2">
+              <div class="booking_text3">手機號碼：
+              </div>
+              <input type="text" id="booking_phone" placeholder="請輸入手機號碼" ></input>
+            </div>
+
+            <div class="booking_title3">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
+
+          </div>
+        </div>
+
+        <hr class="hr">
+
+        <div class="pay_container">
+          <div class="booking_title1">信用卡付款資訊</div>
+          <div class="pay_details">
+
+            <div class="flex-row3">
+              <div class="booking_text3">卡片號碼：</div>
+              <input type="password" id="creditcard_number" placeholder="**** **** **** ****" ></input>
+            </div>
+
+            <div class="flex-row3">
+              <div class="booking_text3">過期時間：</div>
+              <input type="password" id="creditcard_expiredate" placeholder="MM/YY" ></input>
+            </div>
+
+            <div class="flex-row3">
+              <div class="booking_text3">驗證密碼：</div>
+              <input type="text" id="creditcard_cvc" placeholder="CVV" ></input>
+            </div>
+
+          </div>
+        </div>
+
+        <hr class="hr">
+
+        <div class="total_container">
+          <div class="flex-row4">
+            <div class="booking_title2">總價：</div>
+            <div class="booking_title2" id="total_cost"></div>
+          </div>
+          <button type="button" id="pay_button" class="pay_button">確認訂購並付款</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <!-- 登入視窗 -->
+  <div id="auth_modal" class="modal">
+    <div class="modal_content" id="auth_modal_content">
+      <div class="modal_header"></div> 
+      <button class="close" id="close_modal">
+        <img src="/static/img/icon/close.png" alt="Close">
+      </button>
+      <div id="login_form" class="form_container" style="display: none;">
+        <div class="form_title">登入會員帳號</div>
+        <form>
+          <input type="email" id="login_email" placeholder="請輸入電子信箱" required>
+          <input type="password" id="login_password" placeholder="請輸入密碼" required>
+          <button type="button" id="login_button">登入帳戶</button>
+        </form>
+        <div class="form_error" id="login_form_error"></div>
+        <div class="form_text">還沒有帳戶？<a href="#" id="switch_to_register">點此註冊</a></div> 
+      </div>
+      <div id="register_form" class="form_container">
+        <div class="form_title">註冊會員帳號</div>
+        <form>
+          <input type="text" id="register_name" placeholder="請輸入姓名" required>
+          <input type="email" id="register_email" placeholder="請輸入電子信箱" required>
+          <input type="password" id="register_password" placeholder="請輸入密碼" required>
+          <button type="button" id="register_button">註冊新帳戶</button>
+        </form>
+        <div class="form_error" id="register_form_error"></div>
+        <div class="form_text">已經有帳戶了？<a href="#" id="switch_to_login">點此登入</a></div>
+      </div>
+    </div>
+  </div> 
   
+  <footer>
+    <div id="footer" class="footer">COPYRIGHT © 2021 台北一日遊</div>
+  </footer>
+
 </body>
 </html>

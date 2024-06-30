@@ -50,10 +50,40 @@ def create_token(data: dict):
 
 def decode_token(token: str):
     try:
-        return jwt.decode(token, SECRET_KEY, algorithms=["HS256"]) 
+        return jwt.decode(token, SECRET_KEY, algorithms="HS256") 
     except InvalidTokenError: 
         return None
-    
+
+# 打包驗證函數以讓其他api也可以重用
+async def get_user_status_func(request: Request):
+    token = request.headers.get("Authorization")
+    if not token:
+        return None
+    try:
+        token = token.split("Bearer ")[1]
+        payload = decode_token(token) 
+        if not payload:
+            return None
+        email = payload.get("sub")
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT user_id, name, email FROM user_data WHERE email = %s", (email,))
+        user = cursor.fetchone()
+        if not user:
+            return None
+        return {"id": user[0], "name": user[1], "email": user[2]}
+    except jwt.ExpiredSignatureError: #捕獲 JWT 過期錯誤，返回 403 HTTP 異常
+        raise HTTPException(status_code=403, detail="Token has expired")
+    except jwt.InvalidTokenError: #捕獲 JWT 無效錯誤，返回 403 HTTP 異常
+        raise HTTPException(status_code=403, detail="Invalid token")
+    except Exception as e: #捕獲所有其他異常，返回 500 HTTP 異常
+        raise HTTPException(status_code=500, detail=f"Internal server error: {e}")
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+        if 'conn' in locals():
+            conn.close()
+
 class RegisterRequest(BaseModel):
     name: str
     email: str
@@ -150,36 +180,9 @@ async def login(request: LoginRequest):
 # 登入狀態檢查 API
 @router.get("/api/user/auth", response_model=Optional[StatusResponse])
 async def get_user_status(request: Request):
-    token = request.headers.get("Authorization") 
-    print(f"Received token: {token}") 
-
-    if not token:
-        return None 
-
-    try:
-        token = token.split("Bearer ")[1] 
-        payload = decode_token(token) 
-        if not payload:
-            return None 
-
-        email = payload.get("sub")  
-        conn = get_db_connection() 
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT user_id, name, email FROM user_data WHERE email = %s", (email,)) 
-        user = cursor.fetchone() 
-        if not user:
-            return None
-        
-        return JSONResponse(content={"data": {"id": user[0], "name": user[1], "email": user[2]}}) 
-
-    except Exception as e:
-        print(f"Exception occurred: {e}")
-        raise HTTPException(status_code=500, detail=f"內部伺服器錯誤: {e}")
-    finally:
-        if 'cursor' in locals():
-            cursor.close()
-        if 'conn' in locals():
-            conn.close()
+    user = await get_user_status_func(request) 
+    if user:
+        return JSONResponse(content={"data": user})
+    return None
 
 
