@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(`/api/attraction/${attractionId}`); 
             const data = await response.json(); 
-            console.log('Fetched data:', data); 
+            // console.log('Fetched data:', data); 
             renderAttractions(data.data); 
         } catch (error) {
             console.error('Error fetching attractions:', error);
@@ -94,12 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('date').focus(); 
     });
 
-    const costContainer = document.getElementById('cost');
+    const costContainer = document.getElementById('attraction_cost');
     costContainer.textContent = '新台幣 2000 元';
 
     document.querySelectorAll('input[name="day_time"]').forEach(radio => {
         radio.addEventListener('change', function() {
-            const costContainer = document.getElementById('cost');
+            const costContainer = document.getElementById('attraction_cost');
             if (this.value === '上半天') {
                 costContainer.textContent = '新台幣 2000 元';
             } else if (this.value === '下半天') {

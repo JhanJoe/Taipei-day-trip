@@ -121,7 +121,6 @@ async function register(name, email, password) {
 
     if (response.ok) {
         const data = await response.json();
-        console.log('Registration successful:', data);
         showFormMessage('register', '註冊成功', false); 
         
         setTimeout(() => {
@@ -183,6 +182,10 @@ async function logout() {
     location.reload();
 }
 
+//將驗證的token資料存進globalUserData變數裡以讓其他函式或js使用
+let globalUserData = null; 
+let authReady = null; // 存放驗證的 Promise
+
 async function isTokenValid(token) {
     const response = await fetch('/api/user/auth', {
         method: 'GET',
@@ -199,25 +202,44 @@ async function isTokenValid(token) {
     }
 }
 
+function parseJwt(token) {
+    try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        return JSON.parse(jsonPayload);
+    } catch (e) {
+        console.error('Invalid token:', e);
+        return null;
+    }
+}
+
+
 // 檢查登入狀態並更新按鈕文字
 async function updateLoginButton() {
     const token = localStorage.getItem('token');
     const loginButton = document.getElementById('navbar_menu_login');
     if (token) {
-        const userData = await isTokenValid(token);
-        if (userData) {
+        const validUser = await isTokenValid(token);
+        if (validUser) {
+            globalUserData = parseJwt(token); 
             loginButton.textContent = '登出系統';
-            loginButton.removeEventListener('click', clearForm); 
-            loginButton.addEventListener('click', logout); 
+            loginButton.removeEventListener('click', clearForm);
+            loginButton.addEventListener('click', logout);
         } else {
-            localStorage.removeItem('token'); 
+            localStorage.removeItem('token');
+            globalUserData = null;
             loginButton.textContent = '登入/註冊';
-            loginButton.removeEventListener('click', logout); 
-            loginButton.addEventListener('click', clearForm); 
+            loginButton.removeEventListener('click', logout);
+            loginButton.addEventListener('click', clearForm);
         }
     } else {
+        globalUserData = null;
         loginButton.textContent = '登入/註冊';
-        loginButton.removeEventListener('click', logout); 
+        loginButton.removeEventListener('click', logout);
         loginButton.addEventListener('click', clearForm);
     }
 }
@@ -228,6 +250,12 @@ function clearForm() {
 }
 
 
-window.addEventListener('load', updateLoginButton);
+authReady = new Promise((resolve) => { 
+    window.addEventListener('load', async () => { 
+        await updateLoginButton(); 
+        resolve(); 
+    });
+});
+
 
 

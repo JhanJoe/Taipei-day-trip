@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attraction</title>
-  <link rel="stylesheet" type="text/css" href="/static/style.css">
+  <link rel="stylesheet" type="text/css" href="/static/attraction.css">
   <script src="/static/attraction.js" defer></script>
   <script src="/static/auth.js" defer></script> 
+  <script src="/static/booking_button.js" defer></script>
 </head>
 <body>
   <header class="navbar">
@@ -29,7 +30,7 @@
 
         <div id="image_container"></div>
 
-        <div id="dots_container" class="dots_container"></div> <!--part 3-5-->
+        <div id="dots_container" class="dots_container"></div> 
 
         <button id="right_button" class="image_button_right">
           <img src="/static/img/button/States=Default_right.png" alt="Right">
@@ -43,27 +44,30 @@
         <div id="attraction_intro_bookingbox" class="attraction_intro_bookingbox">
           <div class="attraction_intro_smalltitle">訂購導覽行程</div>
           <div class="attraction_intro_text">以此景點為中心的一日行程，帶您探索城市角落故事</div>
-          <div class="flex-row">
-            <div class="attraction_intro_smalltitle">選擇日期：</div>
-            <div class="date_container">
-              <input type="date" id="date" name="date" value="yyyy-mm-dd" min="2020-01-01" max="2030-12-31">
-              <img src="/static/img/icon/calendar.png" alt="calendar" class="calendar_icon">
-            </div>
-          </div>
 
-          <div class="flex-row">
-            <div class="attraction_intro_smalltitle">選擇時間：</div>
-            <div>
-              <input type="radio" id="morning" name="day_time" value="上半天" checked> <label for="morning">上半天</label>
-              <input type="radio" id="afternoon" name="day_time" value="下半天"><label for="afternoon">下半天</label>
+          <form id="booking_form">
+            <div class="flex-row">
+              <div class="attraction_intro_smalltitle">選擇日期：</div>
+              <div class="date_container">
+                <input type="date" id="date" name="date" value="yyyy-mm-dd" min="2020-01-01" max="2030-12-31" required>
+                <img src="/static/img/icon/calendar.png" alt="calendar" class="calendar_icon">
+              </div>
             </div>
-          </div>
 
-          <div class="flex-row">
-            <div class="attraction_intro_smalltitle">導覽費用：</div>
-            <div id="cost" class="attraction_intro_text"></div>
-          </div>
-          <button id="booking_button" class="booking_button">開始預約行程</button>
+            <div class="flex-row">
+              <div class="attraction_intro_smalltitle">選擇時間：</div>
+              <div>
+                <input type="radio" id="morning" name="day_time" value="上半天" checked> <label for="morning">上半天</label>
+                <input type="radio" id="afternoon" name="day_time" value="下半天"><label for="afternoon">下半天</label>
+              </div>
+            </div>
+
+            <div class="flex-row">
+              <div class="attraction_intro_smalltitle">導覽費用：</div>
+              <div id="attraction_cost" class="attraction_intro_text"></div>
+            </div>
+            <button type="submit" id="booking_button" class="booking_button">開始預約行程</button>
+          </form>
         </div>
       </div>
     </div>

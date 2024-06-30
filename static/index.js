@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             attractionDiv.setAttribute('data-id', attraction.id);
 
             const imageUrl = attraction.images.length > 0 ? attraction.images[0] : '';
-            console.log('Image URL:', imageUrl); 
+            // console.log('Image URL:', imageUrl); 
 
             const attractionHTML = `
                 <div class="attraction_image" style="background-image: url(${attraction.images[0]});">
