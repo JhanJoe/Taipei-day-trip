@@ -60,7 +60,13 @@ function displayBookingInfo(booking) {
     bookingNone.style.display = 'none';
     bookingYes.style.display = 'block';
 
-    document.getElementById('booking_name').textContent = booking.attraction.name;
+    const bookingName = document.getElementById('booking_name');
+    bookingName.textContent = booking.attraction.name;
+    bookingName.style.cursor = 'pointer';
+    bookingName.onclick = () => {
+        window.location.href = `/attraction/${booking.attraction.id}`;
+    };
+
     document.getElementById('booking_date').textContent = booking.date;
     document.getElementById('booking_time').textContent = booking.time;
     document.getElementById('booking_cost').textContent = `新台幣 ${booking.price} 元`;
@@ -70,6 +76,10 @@ function displayBookingInfo(booking) {
     const bookingImage = document.getElementById('booking_image');
     if (booking.attraction.image) {
         bookingImage.innerHTML = `<img src="${booking.attraction.image}" alt="${booking.attraction.name}" />`;
+         bookingImage.style.cursor = 'pointer';
+         bookingImage.onclick = () => {
+             window.location.href = `/attraction/${booking.attraction.id}`;
+         };
     }
 
     document.getElementById('connection_name').value = globalUserData.name;
