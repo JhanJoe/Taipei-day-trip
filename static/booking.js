@@ -6,7 +6,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         const token = localStorage.getItem('token');
         document.getElementById('booking_welcome').textContent = `您好，${globalUserData.name}，待預訂的行程如下：`;
-        fetchBookingInfo(token);
+        await fetchBookingInfo(token);
+        const bookingData = document.querySelector('.booking_yes').style.display !== 'none';
+        // 有預定資料才引入tappay
+        if (bookingData) {
+            initializeTapPay();
+        }
     }
 });
 
@@ -67,6 +72,7 @@ function displayBookingInfo(booking) {
         window.location.href = `/attraction/${booking.attraction.id}`;
     };
 
+    document.getElementById('attraction_id').textContent = booking.attraction.id;   
     document.getElementById('booking_date').textContent = booking.date;
     document.getElementById('booking_time').textContent = booking.time;
     document.getElementById('booking_cost').textContent = `新台幣 ${booking.price} 元`;
@@ -76,10 +82,10 @@ function displayBookingInfo(booking) {
     const bookingImage = document.getElementById('booking_image');
     if (booking.attraction.image) {
         bookingImage.innerHTML = `<img src="${booking.attraction.image}" alt="${booking.attraction.name}" />`;
-         bookingImage.style.cursor = 'pointer';
-         bookingImage.onclick = () => {
-             window.location.href = `/attraction/${booking.attraction.id}`;
-         };
+        bookingImage.style.cursor = 'pointer';
+        bookingImage.onclick = () => {
+            window.location.href = `/attraction/${booking.attraction.id}`;
+        };
     }
 
     document.getElementById('connection_name').value = globalUserData.name;

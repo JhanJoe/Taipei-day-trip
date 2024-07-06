@@ -4,8 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thank You</title>
+  <link rel="stylesheet" type="text/css" href="/static/thankyou.css">
+  <script src="/static/auth.js" defer></script> 
+  <script src="/static/booking_button.js" defer></script>
+  <script src="/static/thankyou.js" defer></script> 
 </head>
 <body>
+  <header class="navbar">
+    <div class="container">
+      <div class="navbar_title" onclick="window.location.href='/'">台北一日遊</div>
+      <div class="navbar_menu">
+        <button class="navbar_menu_button" id="navbar_menu_reservation">預定行程</button>
+        <button class="navbar_menu_button" id="navbar_menu_login">登入/註冊</button>
+      </div>
+    </div>
+    <hr class="navbar_hr">
+  </header>
+
+  <main>
+    <div id="thank_welcome" class="thank_title1"></div>
+      <div class="thank_section">
+        <div id="thank_image" class="thank_image"></div>
+        <div id="thank_content" class="thank_content">
+          <div id="thank_order_number" class="thank_text"></div>
+          <div id="thank_attraction_name" class="thank_text"></div>
+          <div id="thank_order_address" class="thank_text"></div>
+          <div id="thank_order_date" class="thank_text"></div>
+          <div id="thank_order_time" class="thank_text"></div>          
+          <div class="thank_title2">請您當天提早10分鐘抵達集合地點，謝謝！</div>
+      </div>
+
+    
+  </main>
+
+
+
+  <!-- 登入視窗 -->
+  <div id="auth_modal" class="modal">
+    <div class="modal_content" id="auth_modal_content">
+      <div class="modal_header"></div> 
+      <button class="close" id="close_modal">
+        <img src="/static/img/icon/close.png" alt="Close">
+      </button>
+      <div id="login_form" class="form_container" style="display: none;">
+        <div class="form_title">登入會員帳號</div>
+        <form>
+          <input type="email" id="login_email" placeholder="請輸入電子信箱" required>
+          <input type="password" id="login_password" placeholder="請輸入密碼" required>
+          <button type="button" id="login_button">登入帳戶</button>
+        </form>
+        <div class="form_error" id="login_form_error"></div>
+        <div class="form_text">還沒有帳戶？<a href="#" id="switch_to_register">點此註冊</a></div> 
+      </div>
+      <div id="register_form" class="form_container">
+        <div class="form_title">註冊會員帳號</div>
+        <form>
+          <input type="text" id="register_name" placeholder="請輸入姓名" required>
+          <input type="email" id="register_email" placeholder="請輸入電子信箱" required>
+          <input type="password" id="register_password" placeholder="請輸入密碼" required>
+          <button type="button" id="register_button">註冊新帳戶</button>
+        </form>
+        <div class="form_error" id="register_form_error"></div>
+        <div class="form_text">已經有帳戶了？<a href="#" id="switch_to_login">點此登入</a></div>
+      </div>
+    </div>
+  </div> 
   
+  <footer>
+    <div id="footer" class="footer">COPYRIGHT © 2021 台北一日遊</div>
+  </footer>
 </body>
 </html>
