@@ -27,8 +27,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const result = await response.json();
         const orderData = result.data;
+        // console.log(orderData); 
 
-        document.getElementById('thank_welcome').textContent = `您好，${globalUserData.name}，您已付款的行程如下：`;
+        if (orderData.status === 1) {
+            document.getElementById('thank_welcome').textContent = `您好，${globalUserData.name}，您已付款的行程如下：`;
+            document.getElementById('thank_remind').textContent = '請您當天提早10分鐘抵達集合地點，謝謝！';
+        } else {
+            document.getElementById('thank_welcome').textContent = `您好，${globalUserData.name}，您未付款的行程如下：`;
+            document.getElementById('thank_remind').textContent = '請最遲於行程開始前3個工作天完成付款，謝謝！';
+        }
 
         document.getElementById('thank_order_number').textContent = `訂單編號：${orderData.number}`;
         document.getElementById('thank_attraction_name').textContent = `景點名稱：${orderData.trip.attraction.name}`;

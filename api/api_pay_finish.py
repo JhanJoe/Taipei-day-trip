@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
 from pydantic import BaseModel
 import httpx
+from starlette.responses import JSONResponse
 import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
@@ -118,6 +119,7 @@ def generate_order_number(email):
 # 建立付款訂單
 @router.post("/api/orders", response_model=OrderResponse)
 async def create_order(order_request: OrderRequest, user: str = Depends(verify_user_status)):
+    print("建立付款訂單", order_request) 
 
     # order_request 包含前端發送的所有資料
     prime = order_request.prime
@@ -127,6 +129,10 @@ async def create_order(order_request: OrderRequest, user: str = Depends(verify_u
     contact_email = order_request.order.contact.email
     contact_name = order_request.order.contact.name
     contact_phone = order_request.order.contact.phone
+
+    order_number = generate_order_number(contact_email)
+    payment_status = 0 # 用於orders table - status
+    payment_message = "付款失敗" 
     
     # 付款請求（to tappay）
     url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
@@ -135,6 +141,7 @@ async def create_order(order_request: OrderRequest, user: str = Depends(verify_u
         "x-api-key": PARTNER_KEY
     }
 
+    # 要給tappay的付款請求資料
     payment_data = {
         "prime": prime,
         "partner_key": PARTNER_KEY,
@@ -149,77 +156,77 @@ async def create_order(order_request: OrderRequest, user: str = Depends(verify_u
         "remember": False
     }
 
+    # 使用httpx.AsyncClient發送請求到 TapPay 的 pay-by-prime 
     try:
         async with httpx.AsyncClient() as client:
             response = await client.post(url, headers=headers, json=payment_data)
+            payment_response = response.json() 
 
-            if response.status_code != 200:
-                raise HTTPException(status_code=response.status_code, detail=response.text)
+            if response.status_code == 200 and payment_response['status'] == 0:
+                payment_status = 1
+                payment_message = "付款成功"
+            else:
+                payment_message = payment_response.get('msg', '付款失敗')
+    
+    except Exception as e:
+        print(f"Exception in create_order: {e}")
+        payment_message = "付款失敗，請稍後再試"
 
-            payment_response = response.json()
+    # 驗證訂單並更新資料庫
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor() as cursor:
 
-            if payment_response['status'] != 0:
-                raise HTTPException(status_code=400, detail=payment_response['msg'])
-
-        order_number = generate_order_number(contact_email)
-
-        # 驗證訂單並更新資料庫
-        try:
-            with get_db_connection() as conn:
-                with conn.cursor() as cursor:
-
-                    # 檢查訂單是否存在並更新狀態
-                    cursor.execute( 
-                        "SELECT * FROM booking WHERE email = %s AND attraction_url_id = %s AND status = '待付款'",
-                        (contact_email, attraction_id)
+                now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                cursor.execute(
+                    """
+                    INSERT INTO orders (order_number, email, name, phone, attraction_url_id, date, time, ordercreated_time, amount, status)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    """,
+                    (
+                        order_number,
+                        contact_email,
+                        contact_name,
+                        contact_phone,
+                        attraction_id,
+                        order_request.order.trip.date,
+                        order_request.order.trip.time,
+                        now,
+                        price,
+                        payment_status
                     )
-                    booking = cursor.fetchone()
+                )
+                conn.commit()
 
-                    if not booking:
-                        raise HTTPException(status_code=404, detail="Booking not found or already paid")
-
-                    cursor.execute( 
-                        "UPDATE booking SET status = '已付款' WHERE email = %s AND attraction_url_id = %s AND status = '待付款'",
-                        (contact_email, attraction_id)
-                    )
-
-                    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                # 如果付款成功，另更新 booking table 的狀態
+                if payment_status == 1:
                     cursor.execute(
                         """
-                        INSERT INTO orders (order_number, email, name, phone, attraction_url_id, date, time, ordercreated_time, amount, status)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, "1")
+                        UPDATE booking SET status = '已付款'
+                        WHERE email = %s AND attraction_url_id = %s AND status = '待付款'
                         """,
-                        (
-                            order_number,
-                            contact_email,
-                            contact_name,
-                            contact_phone,
-                            attraction_id,
-                            order_request.order.trip.date,
-                            order_request.order.trip.time,
-                            now,
-                            price,
-                        )
+                        (contact_email, attraction_id)
                     )
                     conn.commit()
 
-        except Error as err:
-            raise HTTPException(status_code=500, detail=f"Database error: {err}")
-        
-        response = OrderResponse(
-            data=OrderResponseData(
-                number=order_number,
-                payment=PaymentResponse(
-                    status=payment_response['status'],
-                    message=payment_response['msg']
-                )
-            )
-        )
-        return response
+    except Error as err:
+        raise HTTPException(status_code=500, detail=f"Database error: {err}")
     
-    except Exception as e:
-        print(f"Exception in create_order: {e}")  
-        raise HTTPException(status_code=500, detail="Internal Server Error")
+    # 根據付款結果返回回應的資料
+    response_data = {
+        "data": {
+            "number": order_number,
+            "payment": {
+                "status": payment_status,
+                "message": payment_message
+            }
+        }
+    }
+
+    if payment_status == 1:
+        return JSONResponse(content=response_data)
+    else:
+        return JSONResponse(content=response_data, status_code=400)
 
 
 # 取得訂單資訊 (thankyou.html)

@@ -88,7 +88,6 @@ function initializeTapPay() {
     document.getElementById('pay_button').addEventListener('click', async function (event) {
         event.preventDefault();
 
-         // 1. 檢查用戶是否登入
         await authReady;
         if (!globalUserData) {
             alert("請重新登入");
@@ -96,7 +95,6 @@ function initializeTapPay() {
             return;
         }
 
-        // 2. 檢查手機、信用卡號、到期日、ccv是否為空
         const phone = document.getElementById('booking_phone').value;
         const cardNumberStatus = TPDirect.card.getTappayFieldsStatus().status.number;
         const expiryStatus = TPDirect.card.getTappayFieldsStatus().status.expiry;
@@ -107,7 +105,7 @@ function initializeTapPay() {
             return;
         }
 
-        // 3. 向TapPay發出getPrime的請求
+        // 向TapPay發出getPrime的請求  如果result.status==0，表示prime獲取成功
         TPDirect.card.getPrime(async (result) => {
             if (result.status !== 0) {
                 return;
@@ -115,7 +113,7 @@ function initializeTapPay() {
             const prime = result.card.prime;
 
 
-            // 5. 從頁面中取得訂單資料
+            // 從頁面中取得訂單資料 建立requestBody
             const bookingId = document.getElementById('attraction_id').textContent;;
             const bookingName = document.getElementById('booking_name').textContent;
             const bookingDate = document.getElementById('booking_date').textContent;
@@ -156,19 +154,32 @@ function initializeTapPay() {
                     body: JSON.stringify(requestBody)
                 });
 
+                const data = await response.json();
+
+                // 檢查回應狀態碼，決定付款成功或失敗
                 if (response.ok) {
-                    const data = await response.json();
                     alert('付款成功，訂單編號: ' + data.data.number);
                     setTimeout(() => {
                         window.location.href = `/thankyou?order_number=${data.data.number}`; 
                     }, 1000); 
                 } else {
-                    const errorData = await response.json();
-                    alert('付款失敗，請稍後再試: ' + errorData.message);
+                    alert('付款失敗，暫定訂單編號: ' + data.data.number);
+                    setTimeout(() => {
+                        window.location.href = `/thankyou?order_number=${data.data.number}`;
+                    }, 1000);
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('付款失敗，請稍後再試');
+                try {
+                    const data = await response.json();
+                    alert('付款失敗，請稍後再試');
+                    setTimeout(() => {
+                        window.location.href = `/thankyou?order_number=${data.data.number}`;
+                    }, 1000);
+                } catch (jsonError) {
+                    console.error('Error parsing JSON response:', jsonError);
+                    alert('付款失敗，請稍後再試');
+                }
             }
         });
     });
