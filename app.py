@@ -9,6 +9,7 @@ from api.api_attractionId import router as attractionId_router
 from api.api_mrts import router as mrts_router
 from api.api_user import router as user_router
 from api.api_booking import router as booking_router
+from api.api_pay_finish import router as pay_router
 
 app=FastAPI()
 
@@ -33,6 +34,7 @@ app.include_router(attractionId_router)
 app.include_router(mrts_router)
 app.include_router(user_router)
 app.include_router(booking_router)
+app.include_router(pay_router)
 
 # 處理所有的 HTTPException，返回自定義錯誤格式
 @app.exception_handler(HTTPException)

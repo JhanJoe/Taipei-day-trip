@@ -7,6 +7,8 @@
   <link rel="stylesheet" type="text/css" href="/static/booking.css">
   <script src="/static/auth.js" defer></script> 
   <script src="/static/booking_button.js" defer></script>
+  <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0" defer></script>
+  <script src="/static/tappay.js" defer></script>
   <script src="/static/booking.js" defer></script>  
 </head>
 <body>
@@ -22,6 +24,9 @@
   </header>
 
   <main>
+    <!-- 置放隱藏的attraction_url_id -->
+    <div id="attraction_id" style="display:none;"></div> 
+
     <div id="booking_container" class="booking_container">
       <div id="booking_welcome" class="booking_title1"></div>
       <div id="booking_none" class="booking_text" style="display: none">目前沒有任何待預訂的行程</div>
@@ -82,7 +87,7 @@
             <div class="flex-row2">
               <div class="booking_text3">手機號碼：
               </div>
-              <input type="text" id="booking_phone" placeholder="請輸入手機號碼" ></input>
+              <input type="text" id="booking_phone" placeholder="如: 0912345678" ></input>
             </div>
 
             <div class="booking_title3">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</div>
@@ -98,17 +103,17 @@
 
             <div class="flex-row3">
               <div class="booking_text3">卡片號碼：</div>
-              <input type="password" id="creditcard_number" placeholder="**** **** **** ****" ></input>
+              <div class="tpfield" id="card-number"></div>
             </div>
 
             <div class="flex-row3">
               <div class="booking_text3">過期時間：</div>
-              <input type="password" id="creditcard_expiredate" placeholder="MM/YY" ></input>
+              <div class="tpfield" id="card-expiration-date"></div>
             </div>
 
             <div class="flex-row3">
               <div class="booking_text3">驗證密碼：</div>
-              <input type="text" id="creditcard_cvc" placeholder="CVV" ></input>
+              <div class="tpfield" id="card-ccv"></div>
             </div>
 
           </div>

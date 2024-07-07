@@ -95,7 +95,7 @@ async def get_booking(user: Optional[dict] = Depends(verify_user_status)):
                     LEFT JOIN
                         images i ON a.attraction_id = i.attraction_id
                     WHERE 
-                        b.email = %s
+                        b.email = %s AND b.status = '待付款'
                     LIMIT 1
                 """
                 cursor.execute(query, (user_email,)) 
