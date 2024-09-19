@@ -28,6 +28,9 @@
 
 ### 網站 Demo
 
+- 測試帳號：aaa@gmail.com
+- 測試密碼：aaa
+
 #### (1) 首頁：無限捲軸，初始加載 12 個景點，其餘在捲軸到底時會再加載 12 個，直到結束
 
 ![infinite-scroll](./static/img/README/infinite-scroll.gif)
